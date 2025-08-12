@@ -1,4 +1,4 @@
-# AI Chat Platform - OmniDim.io Clone
+Varia-AI
 
 A complete low-latency, multi-tenant AI chat platform with FastAPI backend and React frontend.
 
