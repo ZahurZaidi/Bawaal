@@ -25,6 +25,7 @@ export const useAgentsStore = create((set, get) => ({
       const newAgent = await agentsApi.create(agentData)
       set(state => ({
         agents: [...state.agents, newAgent],
+        currentAgent: newAgent,
         loading: false
       }))
       return { success: true, agent: newAgent }

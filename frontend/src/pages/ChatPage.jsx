@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useAuthStore } from '../store/auth.js'
 import { useAgentsStore } from '../store/agents.js'
 import { useChatStore } from '../store/chat.js'
-import { Send, ArrowLeft, Bot, User } from 'lucide-react'
+import { Send, ArrowLeft, Bot, User, Sparkles } from 'lucide-react'
 import { formatDate } from '../lib/utils.js'
 import LoadingSpinner from '../components/LoadingSpinner.jsx'
 
@@ -65,7 +66,7 @@ const ChatPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-varia-darker via-varia-dark to-varia-gray-900">
         <LoadingSpinner size="lg" />
       </div>
     )
@@ -73,121 +74,194 @@ const ChatPage = () => {
 
   if (!currentAgent) {
     return (
-      <div className="text-center py-12">
-        <h3 className="text-lg font-medium text-gray-900">Agent not found</h3>
-        <p className="text-gray-600">The agent you're looking for doesn't exist.</p>
-        <Link to="/dashboard" className="btn btn-primary mt-4">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Dashboard
-        </Link>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-varia-darker via-varia-dark to-varia-gray-900">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h3 className="text-xl font-semibold text-white mb-4">Agent not found</h3>
+          <p className="text-varia-gray-400 mb-6">The agent you're looking for doesn't exist.</p>
+          <Link
+            to="/"
+            className="inline-flex items-center space-x-2 px-6 py-3 bg-varia-purple hover:bg-varia-purple/80 text-white rounded-lg transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Home</span>
+          </Link>
+        </motion.div>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-8rem)]">
+    <div className="min-h-screen bg-gradient-to-br from-varia-darker via-varia-dark to-varia-gray-900 flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+      <motion.div
+        className="flex items-center justify-between p-6 border-b border-varia-gray-700/50 bg-varia-gray-800/30 backdrop-blur-sm"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="flex items-center">
-          <Link to="/dashboard" className="mr-4 text-gray-400 hover:text-gray-600">
+          <Link to="/" className="mr-4 text-varia-gray-400 hover:text-white transition-colors">
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div className="flex items-center">
-            <Bot className="h-8 w-8 text-primary-600 mr-3" />
+            <div className="w-10 h-10 bg-gradient-to-r from-varia-purple to-varia-blue rounded-lg flex items-center justify-center mr-3">
+              <Bot className="w-6 h-6 text-white" />
+            </div>
             <div>
-              <h1 className="text-lg font-medium text-gray-900">{currentAgent.name}</h1>
+              <h1 className="text-xl font-bold text-white font-poppins">{currentAgent.name}</h1>
               <div className="flex items-center">
                 <div 
-                  className={`h-2 w-2 rounded-full mr-2 ${
-                    isConnected ? 'bg-green-500' : 'bg-yellow-500 animate-pulse'
+                  className={`h-2 w-2 rounded-full mr-2 transition-colors ${
+                    isConnected ? 'bg-green-400' : 'bg-yellow-400 animate-pulse'
                   }`}
                 />
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-varia-gray-400">
                   {isConnected ? 'Connected • Ready to chat' : 'Connecting...'}
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Error message */}
       {error && (
-        <div className="bg-red-50 border-b border-red-200 p-4">
-          <div className="text-sm text-red-700">{error}</div>
-        </div>
+        <motion.div
+          className="bg-red-500/20 border-b border-red-500/30 p-4"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="text-sm text-red-300">{error}</div>
+        </motion.div>
       )}
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {messages.length === 0 ? (
-          <div className="text-center py-12">
-            <Bot className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">Start a conversation</h3>
-            <p className="mt-1 text-sm text-gray-500">
+          <motion.div
+            className="text-center py-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <div className="w-16 h-16 bg-gradient-to-r from-varia-purple to-varia-blue rounded-full flex items-center justify-center mx-auto mb-4">
+              <Bot className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Start a conversation</h3>
+            <p className="text-varia-gray-400 max-w-md mx-auto">
               Send a message to begin chatting with {currentAgent.name}.
             </p>
-          </div>
+          </motion.div>
         ) : (
           messages.map((message) => (
-            <div
+            <motion.div
               key={message.id}
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
             >
               <div
-                className={`flex items-start space-x-3 max-w-xs lg:max-w-md ${
+                className={`flex items-start space-x-3 max-w-xs lg:max-w-2xl ${
                   message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
                 }`}
               >
                 <div
-                  className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                  className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                     message.role === 'user'
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-200 text-gray-600'
+                      ? 'bg-gradient-to-r from-varia-purple to-varia-blue text-white'
+                      : 'bg-varia-gray-700 text-varia-gray-300'
                   }`}
                 >
                   {message.role === 'user' ? (
-                    <User className="h-4 w-4" />
+                    <User className="w-5 h-5" />
                   ) : (
-                    <Bot className="h-4 w-4" />
+                    <Bot className="w-5 h-5" />
                   )}
                 </div>
                 <div
-                  className={`rounded-lg px-4 py-2 ${
+                  className={`rounded-2xl px-4 py-3 shadow-lg ${
                     message.role === 'user'
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-900'
+                      ? 'bg-gradient-to-r from-varia-purple to-varia-blue text-white'
+                      : 'bg-varia-gray-800/50 backdrop-blur-sm border border-varia-gray-700/50 text-white'
                   }`}
                 >
-                  <div className="text-sm">
+                  <div className="text-sm leading-relaxed">
                     {message.isTyping ? (
-                      <div className="typing-indicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                      <div className="flex items-center space-x-2">
+                        <Sparkles className="w-4 h-4 animate-pulse" />
+                        <span className="text-varia-gray-300">AI is thinking...</span>
                       </div>
                     ) : (
                       <div className="whitespace-pre-wrap">{message.content}</div>
                     )}
                   </div>
                   <div
-                    className={`text-xs mt-1 ${
-                      message.role === 'user' ? 'text-primary-200' : 'text-gray-500'
+                    className={`text-xs mt-2 ${
+                      message.role === 'user' ? 'text-white/70' : 'text-varia-gray-500'
                     }`}
                   >
                     {formatDate(message.timestamp)}
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))
         )}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
-      <div className="border-t border-gray-200 bg-white p-4">
-        <form onSubmit={handleSendMessage} className="flex space-x-4">
+      <motion.div
+        className="border-t border-varia-gray-700/50 bg-varia-gray-800/30 backdrop-blur-sm p-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className="max-w-4xl mx-auto">
+          <div className="flex space-x-4">
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage(e);
+                  }
+                }}
+                placeholder={
+                  !isConnected 
+                    ? "Connecting to chat..." 
+                    : isTyping 
+                    ? "AI is typing..." 
+                    : "Type your message..."
+                }
+                disabled={!isConnected || isTyping}
+                className="w-full px-6 py-4 bg-varia-gray-700/50 border border-varia-gray-600/50 rounded-2xl text-white placeholder-varia-gray-400 focus:outline-none focus:ring-2 focus:ring-varia-purple/50 focus:border-varia-purple/50 transition-all duration-300"
+              />
+            </div>
+            <motion.button
+              onClick={handleSendMessage}
+              disabled={!isConnected || isTyping || !inputMessage.trim()}
+              className="px-6 py-4 bg-gradient-to-r from-varia-purple to-varia-blue text-white rounded-2xl hover:shadow-lg hover:shadow-varia-purple/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Send className="w-5 h-5" />
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+export default ChatPage
           <input
             type="text"
             value={inputMessage}
