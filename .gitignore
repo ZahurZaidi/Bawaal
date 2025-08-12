@@ -22,3 +22,4 @@ frontend/dist/
 
 # Misc
 *.pyc
+.env
