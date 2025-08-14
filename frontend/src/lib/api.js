@@ -78,6 +78,14 @@ export const agentsApi = {
       method: 'DELETE',
     })
   },
+
+  // Update an agent
+  update: async (agentId, agentData) => {
+    return apiRequest(`/agents/${agentId}`, {
+      method: 'PUT',
+      body: JSON.stringify(agentData),
+    })
+  },
 }
 
 // Knowledge Base API
@@ -125,6 +133,13 @@ export const kbApi = {
   search: async (agentId, query, limit = 5) => {
     return apiRequest(`/agents/${agentId}/kb/search?query=${encodeURIComponent(query)}&limit=${limit}`)
   },
+
+  // Delete KB chunk
+  deleteChunk: async (agentId, chunkId) => {
+    return apiRequest(`/agents/${agentId}/kb/chunks/${chunkId}`, {
+      method: 'DELETE',
+    })
+  },
 }
 
 // Chat API
@@ -137,6 +152,14 @@ export const chatApi = {
   // Get messages for a conversation
   getMessages: async (conversationId) => {
     return apiRequest(`/conversations/${conversationId}/messages`)
+  },
+
+  // Create new conversation
+  createConversation: async (agentId) => {
+    return apiRequest('/conversations', {
+      method: 'POST',
+      body: JSON.stringify({ agentId }),
+    })
   },
 }
 
@@ -152,4 +175,16 @@ export const createChatWebSocket = async (agentId) => {
   console.log('Creating WebSocket connection to:', wsEndpoint)
   
   return new WebSocket(wsEndpoint)
-} 
+}
+
+// Health check API
+export const healthApi = {
+  check: async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/health`)
+      return response.ok
+    } catch (error) {
+      return false
+    }
+  }
+}
