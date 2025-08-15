@@ -35,7 +35,6 @@ const apiRequest = async (endpoint, options = {}) => {
   }
 
   console.log('Making API request to:', `${API_BASE_URL}${endpoint}`)
-  console.log('With token:', token.substring(0, 20) + '...')
   
   const response = await fetch(`${API_BASE_URL}${endpoint}`, config)
   
@@ -101,8 +100,6 @@ export const kbApi = {
     const formData = new FormData()
     formData.append('file', file)
 
-    console.log('Uploading file with token:', token.substring(0, 20) + '...')
-
     const response = await fetch(`${API_BASE_URL}/agents/${agentId}/kb/upload`, {
       method: 'POST',
       headers: {
@@ -151,7 +148,7 @@ export const chatApi = {
 
   // Get messages for a conversation
   getMessages: async (conversationId) => {
-    return apiRequest(`/conversations/${conversationId}/messages`)
+    return apiRequest(`/chat/conversations/${conversationId}/messages`)
   },
 
   // Create new conversation

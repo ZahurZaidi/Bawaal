@@ -17,7 +17,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-varia-darker via-varia-dark to-varia-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
         <LoadingSpinner size="lg" />
       </div>
     );
@@ -28,7 +28,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-varia-darker via-varia-dark to-varia-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <AnimatePresence mode="wait">
         <Routes>
           <Route path="/" element={<WelcomePage />} />
@@ -41,4 +41,4 @@ function App() {
   );
 }
 
-export default App 
+export default App

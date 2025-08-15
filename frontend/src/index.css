@@ -2,13 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;600;700&display=swap');
+
 @layer base {
   html {
     font-family: 'Inter', 'Poppins', 'Roboto', system-ui, sans-serif;
   }
   
   body {
-    @apply bg-varia-dark text-white;
+    @apply bg-slate-900 text-white;
     overflow-x: hidden;
   }
 }
@@ -58,7 +60,7 @@
   
   /* Gradient text */
   .gradient-text {
-    @apply bg-gradient-to-r from-varia-purple via-varia-blue to-varia-cyan bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent;
   }
   
   /* Glass morphism effect */
@@ -73,6 +75,25 @@
   
   .glow-hover:hover {
     box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25;
+  }
+
+  .btn-secondary {
+    @apply bg-slate-700/50 hover:bg-slate-600/50 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 border border-slate-600/50 hover:border-slate-500/50;
+  }
+
+  /* Input styles */
+  .input-primary {
+    @apply w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all duration-300;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6;
   }
 }
 
@@ -90,9 +111,22 @@
   animation: float 3s ease-in-out infinite;
 }
 
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
 /* Focus styles */
 .focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-varia-purple/50 focus:ring-offset-2 focus:ring-offset-varia-dark;
+  @apply focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-slate-900;
 }
 
 /* Selection styles */
